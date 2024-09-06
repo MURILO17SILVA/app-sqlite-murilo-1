@@ -29,7 +29,7 @@ const iniciarBancoDeDados = async (db) => {
   }
 };
 
-// Componente de Contato com " perfil"
+// Componente de Contato com "foto de perfil"
 const UsuarioBotao = ({ usuario, excluirUsuario, atualizarUsuario }) => {
   const [usuarioSelecionado, setUsuarioSelecionado] = useState(null);
   const [estaEditando, setEstaEditando] = useState(false);
@@ -47,7 +47,7 @@ const UsuarioBotao = ({ usuario, excluirUsuario, atualizarUsuario }) => {
         { text: 'Não', onPress: () => {}, style: 'cancel' },
         { 
           text: 'Sim', 
-          onPress: async (id) => {
+          onPress: async () => {
             try {
               await excluirUsuario(usuario.id);
               Alert.alert('Contato excluído com sucesso!');
@@ -149,6 +149,7 @@ const UsuarioFormulario = ({ usuario, setUsuario, onSave, setMostrarFormulario }
         onPress={onSave}
         style={styles.saveButton}
       >
+        <AntDesign name="checkcircleo" size={18} color="white" />
         <Text style={styles.buttonText}>Salvar</Text>
       </Pressable>
 
@@ -156,6 +157,7 @@ const UsuarioFormulario = ({ usuario, setUsuario, onSave, setMostrarFormulario }
         onPress={() => setMostrarFormulario(false)}
         style={styles.cancelButton}
       >
+        <AntDesign name="closecircleo" size={18} color="white" />
         <Text style={styles.buttonText}>Cancelar</Text>
       </Pressable>
     </View>
@@ -219,7 +221,7 @@ const Conteudo = () => {
   const excluirUsuario = async (id) => {
     try {
       await db.execAsync('DELETE FROM usuario WHERE id = ?', [id]);
-      await getUsuarios();
+      await getUsuarios(); 
     } catch (error) {
       console.log('Erro ao excluir o usuário:', error);
     }
@@ -289,20 +291,18 @@ const Conteudo = () => {
           size={24}
           color='green'
           onPress={() => setMostrarFormulario(true)}
-          style={styles.icon}
         />
         <AntDesign 
-          name='deleteusergroup'
+          name='delete'
           size={24}
           color='red'
           onPress={excluirTodosUsuarios}
-          style={styles.icon}
         />
       </View>
     </View>
   );
 };
- 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -368,6 +368,8 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderRadius: 5,
     alignItems: 'center',
+    flexDirection: 'row', 
+    justifyContent: 'center',
   },
   cancelButton: {
     backgroundColor: '#FF6F61', 
@@ -375,11 +377,14 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderRadius: 5,
     alignItems: 'center',
+    flexDirection: 'row', 
+    justifyContent: 'center',
   },
   buttonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
+    marginLeft: 8, 
   },
   actions: {
     flexDirection: 'row',
